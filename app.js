@@ -8,7 +8,8 @@ const app = new Vue({
     ticketType: 'general',
     referrals: [],
     specialRequests: '',
-    purchaseAgreementSigned: false
+    purchaseAgreementSigned: false,
+    requiredFieldClass: 'required'
   },
   computed: {
     fullName: {
@@ -45,7 +46,20 @@ const app = new Vue({
       }
 
       return this.ticketQuantity + ' ' + readableTicketType + ' ' + ticketPluralization;
-    }
+    },
+    emailIsValid: function() {
+      return this.email.includes('@');
+    },
+    formIsValid: function() {
+      return this.firstName && this.lastName && this.emailIsValid && this.purchaseAgreementSigned;
+    },
+emailClasses:function() {
+  return {
+   touched: this.email.length !== 0,
+   invalid: this.email && !this.emailIsValid
+  };
+}
+
   },
   watch: {
     specialRequests: function(newRequests, oldRequests) {
